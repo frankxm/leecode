@@ -18,7 +18,7 @@ int *twoSum(int *nums,int numSize,int target,int *returnSize){
     *returnSize=2;
 for(int i=0;i<numSize-1;i++){
     for(int j=i+1;j<numSize;j++){
-        if(nums[i]+nums[j]==target){
+if(nums[i]+nums[j]==target){
             answer[0]=i;
             answer[1]=j;
         }
