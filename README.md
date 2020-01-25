@@ -1,2 +1,0 @@
-# leecode
-Daily practice
