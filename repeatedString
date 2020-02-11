@@ -1,0 +1,52 @@
+给定两个字符串 A 和 B, 寻找重复叠加字符串A的最小次数，使得字符串B成为叠加后的字符串A的子串，如果不存在则返回 -1。
+
+举个例子，A = "abcd"，B = "cdabcdab"。
+
+答案为 3， 因为 A 重复叠加三遍后为 “abcdabcdabcd”，此时 B 是其子串；A 重复叠加两遍后为"abcdabcd"，B 并不是其子串。
+
+注意:
+
+ A 与 B 字符串的长度在1和10000区间范围内。
+
+
+
+int repeatedStringMatch(char * A, char * B){
+    int length_a=strlen(A);
+    int length_b=strlen(B);
+    int count=-1;int j=0;int k=0;
+    /*外层的for循环控制遍历初始位置，如果都找不到符合B第一位的就不进入*/
+    for(int i=0;i<length_a;i++){
+        if(B[0]==A[i]){
+            count=1;j=i;k=0;
+            /*以B为参考让A、B同时向后遍历*/
+            while(k<length_b){
+                if(A[j]!=B[k]){
+                    count=-1;k=0;j=0;
+                    break;
+                }
+                /*如果A的字符串遍历到结尾，就把它重新设为开头*/
+                j++;
+                if(j==length_a){
+                    j=0;
+                    count++;}
+                k++;}
+            }
+            /*如果参考的字符串遍历完，说明匹配成功*/
+            if(k==length_b)
+            break;
+        }
+        /*如果匹配成功但是A字符串遍历到底，为特殊情况*/
+        if(k==length_b&&j==0)
+        count--;
+        if(count==-1)
+        return -1;
+        else
+        return count;
+    }
+    
+    
+ 1、这道题主要思路是：先在A遍历直至找到B第一个字符，再进入循环，AB同时遍历，记录循环的次数
+ 2、中间可能出现的情况是——一、k符合条件循环完了但是j==0，这就说明A循环某个次数是可以包含B的，但是我的代码设定当j==0时（相当于循环了一整条）count要加一
+ 所以此种情况count--  二、K不符合条件但也循环完了，那么返回的count  就是初始的，所以初始化为-1  其他情况下当K符合跳出循化J！=0时说明一条字符串并未结束所以不需要count--
+ 
+
