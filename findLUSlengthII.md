@@ -18,58 +18,69 @@
     所有给定的字符串长度不会超过 10 。
     给定字符串列表的长度将在 [2, 50 ] 之间。
 
-
 int findLUSlength(char ** strs, int strsSize){
-    int length[strsSize];int answer=-1;
+    int answer=-1;char flag;
     int index_first=0;int index_second=0;int k=0;int tick_first=0;int tick_second=0;
-    for(int i=0;i<strsSize;i++){
-        length[i]=strlen(strs[i]);
-    }
     for(int i=0;i<strsSize-1;i++){
         for(int j=i+1;j<strsSize;j++){
-            if(length[i]<length[j]){
-                char temp=strs[i];
+            if(strlen(strs[i])<strlen(strs[j])){
+                char *temp=' ';
+                temp=strs[i];
                 strs[i]=strs[j];
                 strs[j]=temp;
             }
         }
     }
-    for(int i=0;i<strsSize-1;i++){
-        if(length[i]==length[i+1]){
+    for(int i=0;i<(strsSize-1);i++){
+        if(strlen(strs[i])==strlen(strs[i+1])){
             index_second=0;index_first=0;
-            while(index_second<length[i+1]){
-                int j=i;
-                if(strs[j][index_first]!=strs[j+1][index_second]){
-                    answer=length[j];
+            while(index_second<strlen(strs[i+1])){
+                if(strs[i][index_first]!=strs[i+1][index_second]){
+                    answer=strlen(strs[i]);
                     break;
                 }
                 index_first++;index_second++;
             }
-             if(index_second!=length[i+1])
+             if(index_second!=strlen(strs[i+1]))
             break;}
-        else if(length[i]>length[i+1]){
+        else if(strlen(strs[i])>strlen(strs[i+1])){
             if(i==0){
-            answer=length[0];
+            answer=strlen(strs[0]);
             break;}
-            for( k=0;k<length[i];k++){
+            for( k=0;k<strlen(strs[i]);k++){
                 if(strs[i][k]==strs[i+1][0]){
                     tick_first=k; tick_second=0;
                     tick_first++;tick_second++;break;
                     }}
-                if(k==length[i])
-                answer=length[i+1];
-        while(tick_second<length[i+1]){
-            while(tick_first<length[i]){
+                if(k==strlen(strs[i])){
+                answer=strlen(strs[i+1]);
+                break;}
+        while(tick_second<strlen(strs[i+1])){
+            while(tick_first<strlen(strs[i])){
                 if(strs[i][tick_first]==strs[i+1][tick_second])
                 break;
                 tick_first++;
             }
-            if(tick_first==length[i])
+            if(tick_first==strlen(strs[i]))
             break;
             tick_first++;
             tick_second++;}
-                if(tick_first==length[i]&&tick_second!=length[i+1])
-            answer=length[i+1];
-                else if(tick_second==length[i+1])
-                continue;}}
+                if(tick_first==strlen(strs[i])&&tick_second!=strlen(strs[i+1])){
+            answer=strlen(strs[i+1]);break;}
+                }}
+        if(strlen(strs[0])==1){
+           for(int i=0;i<strsSize-1;i++){
+               flag=strs[i][0];
+               for(int j=i+1;j<strsSize;j++){
+                   if(strs[i][0]==strs[j][0]){
+                       strs[j][0]=0;
+                       flag=0;
+                   }}
+                   strs[i][0]=flag;
+               }
+           for(int i=0;i<strsSize;i++){
+               if(strs[i][0]!=0){
+               answer=1;break;}
+               answer=-1;
+           }}
                 return answer;}
