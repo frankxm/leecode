@@ -25,7 +25,7 @@
 输出: 0
 解释: 在这种情况下, 没有交易完成, 所以最大利润为 0。
 
-
+法一：贪心算法
 
 int maxProfit(int* prices, int pricesSize){
     int max=0;
@@ -37,6 +37,32 @@ int maxProfit(int* prices, int pricesSize){
     
     
 贪心算法：因为题目要求尽可能多的获得利润，并且题目并没指出资金处于有限的情况，那就是单纯地考虑利润的多少。那么由股票每日价格的曲线可知，只有隔天利润增加了就要卖，如果隔天减少则不买。见好就收，只买赚钱的股票，这样累计的总利润就最大
+
+法二：双指针买入卖出
+
+int maxProfit(int* prices, int pricesSize){
+    int buy=0;int sell=1;int profit=0;int maxProfit=0;
+    if(pricesSize<=1)
+    return 0;
+    //*在已知各天价格的情况下，等待赚得时机买入再卖出，将个个利润相加即位总利润*//
+    while(buy<(pricesSize-1)&&sell<pricesSize){
+        if(prices[buy]>=prices[sell]){
+        //*如果明天价格比今天低，则不买，但是天数会变，则buy也要跟着变*//
+            sell++;buy++;}
+        else{
+            if((sell+1<pricesSize)&&(prices[sell]<prices[sell+1]))
+                sell++;
+            else{
+            profit=profit+(prices[sell]-prices[buy]);
+            buy=sell+1;
+            sell=buy+1;
+        }
+    }
+}
+return profit;
+}
+
+本题一开始没理解清楚，以为自己是在未知情况下求利润，实际上自己是知道各天价格，那么就不存在一开始买错的情况。一开始买就会挑好天数保证第二天赚钱，而不是开始随意一天买入。并且买入卖出得到一次利润后，因为价格会随着时间变化，所以之后买入的价格就要往后推，而不是在原地。
 
     
     
