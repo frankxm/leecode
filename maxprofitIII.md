@@ -60,5 +60,24 @@ int maxProfit(int* prices, int pricesSize){
     注意两次买卖最大利润并不是一次最大加上另一次最大，两次遍历意义不同，第一次是往后，在往后的情况下尽量保证最大。第二次是往前，在往前的情况下尽量保证最大。因为两次记录下来的值都是当天往前和当天往后所获得的最大
     
     
+   参考借鉴的动态规划
+   int max(int a,int b){
+    return a>b? a: b ;
+}
+int maxProfit(int* prices, int pricesSize){
+    if(pricesSize<2)
+    return 0;
+    int dp[pricesSize][3][2];
+    memset(dp,0,sizeof(int)*(pricesSize)*3*2);
+    dp[0][1][0]=0;dp[0][1][1]=-prices[0];dp[0][2][0]=0;dp[0][2][1]=-prices[0];
+    for(int i=1;i<pricesSize;i++){
+        for(int k=1;k<=2;k++){
+            dp[i][k][0]=max(dp[i-1][k][0],dp[i-1][k][1]+prices[i]);
+            dp[i][k][1]=max(dp[i-1][k][1],dp[i-1][k][0]-prices[i]);
+        }
+    }
+    return dp[pricesSize-1][2][0];}
+    
+    
     
     
