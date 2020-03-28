@@ -1,0 +1,24 @@
+#include<iostream>
+using namespace std;
+class information{
+        private:
+                char name[100];char number[100];int age=0;
+                int grades_first=0;int grades_second=0;int grades_third=0;int grades_fourth=0;
+        public:
+                void init();
+                void print();};
+void information::init(){
+        char p;
+        cin.get(name,100,',');
+                cin>>p>>age>>p;
+        cin.get(number,100,',');
+                cin>>p>>grades_first>>p>>grades_second>>p>>grades_third>>p>>grades_fourth;}
+void information::print(){
+        cout<<name<<','<<age<<','<<number<<',';
+        cout<<(grades_first+grades_second+grades_third+grades_fourth)/4<<endl;}
+
+        int main(){
+                information i;
+                i.init();
+                i.print();
+                return 0;}
